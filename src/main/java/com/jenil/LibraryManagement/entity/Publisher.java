@@ -1,43 +1,42 @@
 package com.jenil.LibraryManagement.entity;
 
-
 import jakarta.persistence.*;
 
 import java.util.Set;
 
 @Entity
-@Table(name="author")
-public class Author {
+@Table(name="publisher")
+public class Publisher {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "author_id",length = 11)
-    private int authorid;
+    @Column(name = "publisher_id",length = 11)
+    private int publisherid;
 
     @Column(name = "name",length = 45)
     private String name;
 
-    @OneToMany(mappedBy = "author")
+    @OneToMany(mappedBy = "publisher")
     private Set<Book> books;
 
-    public Author(int authorid, String name) {
-        this.authorid = authorid;
+    public Publisher(int publisherid, String name) {
+        this.publisherid = publisherid;
         this.name = name;
     }
 
-    public Author(String name) {
+    public Publisher(String name) {
         this.name = name;
     }
 
-    public Author() {
+    public Publisher() {
     }
 
-    public int getAuthorid() {
-        return authorid;
+    public int getPublisherid() {
+        return publisherid;
     }
 
-    public void setAuthorid(int authorid) {
-        this.authorid = authorid;
+    public void setPublisherid(int publisherid) {
+        this.publisherid = publisherid;
     }
 
     public String getName() {
@@ -50,12 +49,10 @@ public class Author {
 
     @Override
     public String toString() {
-        return "Author{" +
-                "authorid=" + authorid +
+        return "Publisher{" +
+                "publisherid=" + publisherid +
                 ", name='" + name + '\'' +
                 '}';
     }
-
-
 
 }
