@@ -3,7 +3,9 @@ package com.jenil.LibraryManagement.service.IMPL;
 import com.jenil.LibraryManagement.dto.BookDTO;
 import com.jenil.LibraryManagement.dto.BookSaveDTO;
 import com.jenil.LibraryManagement.dto.BookUpdateDTO;
+import com.jenil.LibraryManagement.entity.Author;
 import com.jenil.LibraryManagement.entity.Book;
+import com.jenil.LibraryManagement.entity.Publisher;
 import com.jenil.LibraryManagement.repo.AuthorRepo;
 import com.jenil.LibraryManagement.repo.BookRepo;
 import com.jenil.LibraryManagement.repo.PublisherRepo;
@@ -13,6 +15,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Service
 public class BookServiceIMPL implements BookService {
@@ -25,10 +29,19 @@ public class BookServiceIMPL implements BookService {
     private BookRepo bookRepo;
     @Override
     public String addBook(BookSaveDTO bookSaveDTO) {
+
+
+
+        Author author = authorRepo.findById(bookSaveDTO.getAuthor_id())
+                .orElseThrow(() -> new RuntimeException("Author not found with ID: " + bookSaveDTO.getAuthor_id()));
+
+        Publisher publisher = publisherRepo.findById(bookSaveDTO.getPublisher_id())
+                .orElseThrow(() -> new RuntimeException("Publisher not found with ID: " + bookSaveDTO.getPublisher_id()));
+
         Book book = new Book(
                 bookSaveDTO.getTitle(),
-                authorRepo.getById(bookSaveDTO.getAuthor_id()),
-                publisherRepo.getById(bookSaveDTO.getPublisher_id())
+                author,
+                publisher
         );
         bookRepo.save(book);
         return book.getTitle();
